@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso - Mueble arte</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,900;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styles.css">
+
+<style>
+  .brand-header p, .login-header p, .subtitle, .tagline, header p {
+    color: #FFFFFF !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85) !important;
+    font-weight: 500 !important;
+    opacity: 1 !important;
+  }
+</style>
+</head>
+<body class="min-h-screen relative flex flex-col items-center justify-center p-6 overflow-hidden">
+
+    <div class="mosaic-login-layout">
+        <div class="mosaic-box b-vino box-1"></div>
+        <div class="mosaic-box b-madera box-2"></div>
+        <div class="mosaic-box b-calido box-3"></div>
+        <div class="mosaic-box b-neutro box-4"></div>
+        <div class="mosaic-box b-texto box-5"></div>
+        <div class="mosaic-box b-madera box-6"></div>
+        <div class="mosaic-box b-calido box-7"></div>
+        <div class="mosaic-box b-vino box-8"></div>
+    </div>
+
+    <header class="relative z-10 text-center mb-8 max-w-xl">
+        <h1 class="text-4xl md:text-5xl font-brand font-black text-white drop-shadow-[0_2px_6px_rgba(0,0,0,0.85)] tracking-wide">
+            Mueble arte
+        </h1>
+        <p class="text-xs md:text-sm uppercase tracking-[0.28em] text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] font-bold mt-2">
+            Clásicos & Contemporáneos
+        </p>
+        <div class="mt-3 inline-block bg-[#D8D0CE]/90 backdrop-blur-sm border border-[#92443D] px-5 py-1.5 rounded-full shadow-md">
+            <p class="text-xs md:text-sm italic font-brand text-[#495760]">
+                "Donde la tradición artesanal se funde con el diseño vanguardista."
+            </p>
+        </div>
+    </header>
+
+    <div class="login-card-container w-full max-w-md p-8">
+        <div id="loginError" class="hidden mb-4 p-3 bg-[#CE5E52] text-white rounded-xl text-xs font-bold text-center shadow"></div>
+
+        <form id="formLogin" onsubmit="iniciarSesion(event)" class="space-y-4">
+            <div>
+                <label class="block text-xs uppercase font-bold text-[#495760] mb-1">Usuario o Identificador</label>
+                <input type="text" id="username" required placeholder="carlos.admin o CLI-101"
+                    class="w-full px-4 py-2.5 bg-white border border-[#8894A4] rounded-xl text-xs text-[#495760] focus:outline-none focus:border-[#92443D]">
+            </div>
+            <div>
+                <label class="block text-xs uppercase font-bold text-[#495760] mb-1">Contraseña</label>
+                <input type="password" id="password" required placeholder="••••••••"
+                    class="w-full px-4 py-2.5 bg-white border border-[#8894A4] rounded-xl text-xs text-[#495760] focus:outline-none focus:border-[#92443D]">
+            </div>
+            <button type="submit"
+                class="w-full py-3 bg-[#4F2C33] hover:bg-[#3B2026] text-white font-bold rounded-xl text-xs uppercase tracking-wider shadow transition">
+                Acceder al Sistema
+            </button>
+        </form>
+
+        <div class="mt-5 text-center border-t border-[#8894A4]/40 pt-4">
+            <button onclick="document.getElementById('modalRegistro').classList.remove('hidden')"
+                class="text-xs font-bold text-[#92443D] hover:underline">
+                ¿Deseas solicitar una cotización? Crear Cuenta
+            </button>
+        </div>
+    </div>
+
+    <div id="modalRegistro" class="hidden fixed inset-0 z-50 bg-black/60 flex items-center justify-center p-4">
+        <div class="bg-[#D8D0CE] border-2 border-[#92443D] rounded-3xl max-w-md w-full p-6 shadow-2xl">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-base font-brand font-bold text-[#4F2C33]">Crear Cuenta</h3>
+                <button onclick="document.getElementById('modalRegistro').classList.add('hidden')" class="text-[#495760] font-bold">✕</button>
+            </div>
+            <form onsubmit="registrarCuenta(event)" class="space-y-3">
+                <div>
+                    <label class="block text-[11px] uppercase font-bold text-[#495760] mb-0.5">Nombre Completo o Empresa</label>
+                    <input type="text" id="reg_nombre" required class="w-full px-3 py-2 bg-white border border-[#8894A4] rounded-xl text-xs text-[#495760]">
+                </div>
+                <div>
+                    <label class="block text-[11px] uppercase font-bold text-[#495760] mb-0.5">Teléfono</label>
+                    <input type="text" id="reg_telefono" required class="w-full px-3 py-2 bg-white border border-[#8894A4] rounded-xl text-xs text-[#495760]">
+                </div>
+                <div>
+                    <label class="block text-[11px] uppercase font-bold text-[#495760] mb-0.5">Contraseña</label>
+                    <input type="password" id="reg_password" required class="w-full px-3 py-2 bg-white border border-[#8894A4] rounded-xl text-xs text-[#495760]">
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-[#CE5E52] hover:bg-[#B85348] text-white font-bold rounded-xl text-xs transition mt-2">
+                    Completar Registro
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const AES_KEY = CryptoJS.enc.Utf8.parse('MuebleArteClasicoContempor2026!!');
+        const AES_IV = CryptoJS.enc.Utf8.parse('1234567890123456');
+
+        function decryptTransport(b64) {
+            try {
+                const dec = CryptoJS.AES.decrypt(b64, AES_KEY, { iv: AES_IV, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 });
+                return JSON.parse(dec.toString(CryptoJS.enc.Utf8));
+            } catch (e) {
+                return b64;
+            }
+        }
+
+        async function iniciarSesion(e) {
+            e.preventDefault();
+            const errBanner = document.getElementById('loginError');
+            errBanner.classList.add('hidden');
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({username, password})
+                });
+
+                if (res.ok) {
+                    const data = await res.json();
+                    const d = decryptTransport(data.payload);
+                    localStorage.setItem('auth_token', d.token);
+                    localStorage.setItem('auth_rol', d.rol);
+                    localStorage.setItem('auth_nombre', d.nombre);
+                    localStorage.setItem('is_client', d.is_client ? '1' : '0');
+                    if (d.is_client) {
+                        localStorage.setItem('client_id', d.id_cliente);
+                        localStorage.setItem('client_tel', d.telefono);
+                    }
+                    window.location.href = '/dashboard';
+                } else {
+                    const err = await res.json();
+                    errBanner.innerText = err.error || "No existe la cuenta";
+                    errBanner.classList.remove('hidden');
+                }
+            } catch (err) {
+                errBanner.innerText = "No existe la cuenta";
+                errBanner.classList.remove('hidden');
+            }
+        }
+
+        async function registrarCuenta(e) {
+            e.preventDefault();
+            const payload = {
+                nombre_completo: document.getElementById('reg_nombre').value,
+                telefono: document.getElementById('reg_telefono').value,
+                password: document.getElementById('reg_password').value
+            };
+            const res = await fetch('/api/registro-cliente', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            const d = await res.json();
+            alert(`Cuenta creada exitosamente. Tu identificador es: ${d.id_cliente}`);
+            document.getElementById('modalRegistro').classList.add('hidden');
+            document.getElementById('username').value = d.id_cliente;
+        }
+    </script>
+</body>
+</html>
